@@ -1,11 +1,20 @@
 const express = require('express');
-const {PORT, MONGO_URL} = require('./config/settings');
+const {PORT, MONGODB_URI} = require('./config/settings');
+const bodyParser = require('body-parser');
 const products = require('./routes/product');
 const orders = require('./routes/order');
 // const cart = require('./routes/cart');
 // const status = require('./routes/status');
 
+const mongoose = require('mongoose');
+
+mongoose.connect(MONGODB_URI);
+
 const app = express();
+
+
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: false }));
 
 app.use('/api', products);
 app.use('/api', orders);
