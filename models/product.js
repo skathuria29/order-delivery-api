@@ -31,6 +31,17 @@ module.exports.getProducts = function(filters, callback){
     })
 }
 
+module.exports.getProductInfo = function(pid, callback){
+    Product.find({pid : pid} , (err, product) =>{
+        if(err)
+            return console.error("Couldn't find the product");
+        callback(null, product);
+    })
+}
+
+
+
+
 module.exports.addProduct = function(product , callback){
     var _product = new Product({
         pid : 'pro_' + uid(),
@@ -40,4 +51,6 @@ module.exports.addProduct = function(product , callback){
     })
     _product.save(callback);
 }
+
+
 

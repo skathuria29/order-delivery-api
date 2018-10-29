@@ -36,4 +36,14 @@ router.post('/products' , (req, res) => {
     })
 })
 
+router.get('/product/:pid' , (req, res) => {
+    const pid = req.params.pid;
+    Product.getProductInfo(pid , (err, product) => {
+        if(err)
+            res.json(err);
+        res.json(product);
+        res.status(200);
+    })
+})
+
 module.exports = router;
