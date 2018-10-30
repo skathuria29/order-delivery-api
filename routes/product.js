@@ -20,8 +20,8 @@ router.post('/products' , (req, res) => {
     const quantity = req.body.quantity;
     const price = req.body.price;
 
-    check('quantity').isNumeric()
-    check('price').isNumeric()
+    check('quantity').exists().isNumeric()
+    check('price').exists().isNumeric()
 
     let new_product = {
         pname : pname,
