@@ -3,9 +3,6 @@ const Schema = mongoose.Schema;
 const uid = require('uniqid');
 
 const OrderCartSchema = mongoose.Schema({
-    "cid": {
-        type :  String
-    },
     "uid": {
         type :  String
     },
@@ -45,7 +42,6 @@ module.exports.deleteProductFromCart = function(product, callback){
 
 module.exports.addProductToCart = function(cart, callback){
     let cartItem = new Cart ({
-        cid : 'cart_' + uid(),
         uid : cart.uid,
         product_id : cart.pid,
         quantity : cart.quantity,
@@ -54,6 +50,14 @@ module.exports.addProductToCart = function(cart, callback){
 
     cartItem.save(callback)
 
+}
+
+module.exports.delete = function(uid , callback){
+    Cart.remove({uid : uid} , (err, cart) => {
+        if(err)
+            return callback(err);
+        callback(null, cart);
+    })
 }
 
 

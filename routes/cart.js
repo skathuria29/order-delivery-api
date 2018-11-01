@@ -13,23 +13,22 @@ router.get('/cart/:uid' , (req,res) => {
     })
 })
 
-router.post('/addToCart' , (req,res) => {
+
+//add to cart
+router.post('/cart' , (req,res) => {
     const pid = req.body.pid;
     const uid = req.body.uid;
     const quantity = req.body.quantity;
 
-    // req.checkBody(pid).notEmpty();
-    // req.checkBody(uid).notEmpty();
-    // req.checkBody(quantity).notEmpty().isNumeric();
+    req.checkBody('pid', 'Username is required').notEmpty();
+	req.checkBody('uid', 'uid is required').notEmpty();
+	req.checkBody('quantity', 'Qunatity is not valid').isNumeric();
+	// req.checkBody('password', 'Password is required').notEmpty();
+	
 
-    check('pid').not().isEmpty();
-    check('uid').not().isEmpty()
-    check('quantity').isNumeric()
-
-    let errors = validationResult(req);
-    // let errors = req.validationErrors();
-
-	if (!errors.isEmpty()) {
+    var errors = req.validationErrors();
+    
+	if (errors) {
 		res.status(400).json({ errors: errors.mapped() });
     }
     else{
