@@ -49,7 +49,9 @@ passport.deserializeUser(function (id, done) {
 	});
 });
 
-
+router.get('/login', (req, res) => {
+    console.log("get login");
+})
 
 router.post('/login',
   passport.authenticate('local'),
