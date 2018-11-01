@@ -66,7 +66,7 @@ router.post('/inventory/order/assign', (req, res) => {
 })
 
 router.get('/inventory/:iid/location', (req, res) => {
-    Inventory.get(req.param.iid, (err, inventory) => {
+    Inventory.get(req.params.iid, (err, inventory) => {
         if(err)
             res.json(err)
         res.json(inventory);
