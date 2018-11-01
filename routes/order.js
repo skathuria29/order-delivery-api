@@ -3,8 +3,14 @@ const router = express.Router();
 const Order = require('../models/order');
 const Cart = require('../models/cart');
 
-router.get('/orders' , (req,res) => {
-    res.send("get orders");
+router.post('/orders' , (req,res) => {
+    const uid = req.body.user_id;
+    Order.getUserOrders({id : uid}, (err, orders) => {
+        if(err)
+            res.json(err);
+        res.json(orders);
+        res.status(200);
+    })
 })
 
 router.get('/order/:oid' , (req, res) => {
