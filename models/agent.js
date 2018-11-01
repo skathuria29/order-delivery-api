@@ -48,6 +48,14 @@ module.exports.updateLocation = function(agent, callback){
     })
 }
 
+module.exports.getAgentLocation= function(aid, callback){
+    Agent.findOne({aid : aid} , (err, agent) => {
+        if(err)
+            return callback(err);
+        callback(null, agent);
+    })
+}
+
 module.exports.getLocation = function(oid, callback){
     Agent.findOne(oid , (err, agent) => {
         if(err)
