@@ -10,9 +10,17 @@ const OrderSchema = mongoose.Schema({
     "uid" : {
         type : String
     },
+    "delivery_address" : {
+        "latitude" : {
+            type : Number
+        },
+        "longitude" : {
+            type : Number
+        }
+    },  
     "status":{
         type : String,
-        enum : ["placed" , "ready to dispatch" , "agent assigned" , "dispatched" , "received"],
+        enum : ["placed" , "ready" , "dispatched" , "received"],
         default : "placed"
     },
     "createdAt" : {
@@ -47,22 +55,26 @@ module.exports.getUserOrders = function(user, callback){
     })
 }
 
+module.exports.getOrderDetails = function(oid, callback){
+    Order.findOne({id : oid} , (err, order) => {
+        if(err)
+            return callback(err)
+        OrderItem.find({oid : order.id}, (err, items) => {
+            if(err)
+                return callback(err)
+            callback(null, items);
+        })
+    })
+}
+
 
 //all orders for inventory
 module.exports.getInventoryOrders = function(filters , callback){
-    Order.find(filters, (err, orders) => {
+    Order.find(filters, ['id' , 'createdAt', 'status'], (err, orders) => {
         if(err)
             return callback(err);
         callback(null, orders);
     })
-}
-
-//order -> add status to order
-// module.exports.placeOrder = function(uid){
-//     Order.create()
-// }
-
-module.exports.orderReadyToDispatch = function(){
 }
 
 let createOrder = function(uid, callback){
@@ -74,10 +86,6 @@ let createOrder = function(uid, callback){
     
     new_order.save(callback);
 }
-
-// module.exports.createOrderItem = function(){
-
-// }
 
 module.exports.placeOrder = function(uid, callback){
     Cart.find({uid : uid} , (err, items) => {
@@ -100,6 +108,14 @@ module.exports.placeOrder = function(uid, callback){
                 callback(null, resp);
             })
         })
+    })
+}
+
+module.exports.updateStatus = function(order, callback){
+    Order.findOneAndUpdate(order.id, { status : order.status} , (err, order) => {
+        if(err)
+            return callback(err);
+        callback(null, order);
     })
 }
 

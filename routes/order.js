@@ -7,6 +7,15 @@ router.get('/orders' , (req,res) => {
     res.send("get orders");
 })
 
+router.get('/order/:oid' , (req, res) => {
+    Order.getOrderDetails(req.params.oid, (err, items) => {
+        if(err)
+            res.json(err)
+        res.json(items)
+        res.status(400);
+    })
+})
+
 router.post('/order', (req, res) => {
     const uid = req.body.uid;
 
