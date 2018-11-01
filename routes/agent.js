@@ -16,7 +16,7 @@ router.get('/agents' , (req, res) => {
 })
 
 router.get('/agent/:aid/location', (req, res) => {
-    Agent.getAgentLocation(req.param.aid, (err, resp) => {
+    Agent.getAgentLocation(req.params.aid, (err, resp) => {
         if(err)
             res.json(err);
         res.json(resp);
