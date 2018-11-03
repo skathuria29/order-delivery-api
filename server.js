@@ -30,8 +30,8 @@ server.listen(PORT, function(){
     io.on('connection', function(socket){
         console.log("user connected");
         socket.on('update location', function(agent){
-            const lat = location.lat;
-            const long = location.long;
+            const lat = agent.lat;
+            const long = agent.long;
             const aid = agent.id
             Agent.updateLocation(agent , (err, agent) => {
                 if(err)
